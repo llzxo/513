@@ -1,8 +1,3 @@
-/**
- * Created by llzxo on 2016/1/19.
- *//**
- * Created by llzxo on 2016/1/14.
- */
 var RequestApp=React.createClass({
         loadRequestsFromServer:function(){
             $.ajax({

@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 /**
  * Created by llzxo on 2016/1/19.
  */
+=======
+>>>>>>> origin/master
 var RequestApp=React.createClass({
         loadRequestsFromServer:function(){
             $.ajax({

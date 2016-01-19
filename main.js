@@ -1,7 +1,5 @@
 /**
  * Created by llzxo on 2016/1/19.
- *//**
- * Created by llzxo on 2016/1/14.
  */
 var RequestApp=React.createClass({
         loadRequestsFromServer:function(){
@@ -25,7 +23,7 @@ var RequestApp=React.createClass({
         },
         componentDidMount:function(){
             this.loadRequestsFromServer();
-            setInterval(this.loadRequestsFromServer,this.props.polInterval);
+            setInterval(this.loadRequestsFromServer,this.props.pollInterval);
         },
         toggleFormDisplay:function(){
             this.setState({
@@ -58,7 +56,6 @@ var RequestApp=React.createClass({
                             toggleFormDisplay={this.toggleFormDisplay}
                             formDisplayed={this.state.formDisplayed} />
                         <RequestList
-                            onVote={this.onVote}
                             requests={this.state.requests} />
                     </div>
                 </div>
@@ -106,7 +103,8 @@ var RequestList=React.createClass({
                 key={item.key}
                 voteCount={item.voteCount}
                 title={item.title}
-                desc={item.desc} />
+                desc={item.desc}
+                date={new Date()}/>
         }.bind(this));
 
         return (
@@ -116,21 +114,15 @@ var RequestList=React.createClass({
         );
     }
 });
+
 var RequestItem=React.createClass({
-    voteUp:function(){
-        var voteCount=parseInt(this.props.voteCount,10)+1;
-        this.props.onVote(this.props.requestKey,voteCount);
-    },
-    voteDown:function(){
-        var voteCount=parseInt(this.props.voteCount,10)-1;
-        this.props.onVote(this.props.requestKey,voteCount);
-    },
     render:function(){
         return (
             <div className="media" key={this.props.key}>
                 <div className="media-body">
                     <h4 className="media-heading">{this.props.title}</h4>
                     <p>{this.props.desc}</p>
+                    <p>{this.props.date.toString()}</p>
                 </div>
             </div>
         );
@@ -146,6 +138,6 @@ var ShowAddButton=React.createClass({
 });
 
 ReactDOM.render(
-    <RequestApp url="./requests" pollInterval={2000} />,
+    <RequestApp url="./request.json" pollInterval={2000} />,
     document.getElementById('content')
 );

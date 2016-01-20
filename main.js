@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 /**
  * Created by llzxo on 2016/1/19.
  */
-=======
->>>>>>> origin/master
 var RequestApp=React.createClass({
         loadRequestsFromServer:function(){
             $.ajax({
@@ -11,13 +8,38 @@ var RequestApp=React.createClass({
                 dataType:'json',
                 cache:false,
                 success:function(requests){
-                    this.setState({data:requests});
+                    this.setState({requests:requests});
                 }.bind(this),
                 error: function (xhr,status,err) {
                     console.error(this.props.url,status,err.toString());
                 }.bind(this)
             });
         },
+
+    handleRequestSubmit: function(requests) {
+        var requests = this.state.requests;
+        var newRequests=this.state.requests.concat(newRequests);
+        newRequests=this.sortRequests(newRequests);
+        this.setState({requests:newRequests});
+        $.ajax({
+            url: this.props.url,
+            dataType: 'json',
+            type: 'POST',
+            request: requests,
+            success: function(requests) {
+                this.setState({requests: requests});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                this.setState({requests: requests});
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
+    },
+
+
+
+
+
         getInitialState:function(){
             return{
                 requests:[],
@@ -55,7 +77,7 @@ var RequestApp=React.createClass({
                     </div>
                     <div className="main container">
                         <RequestForm
-                            onNewRequest={this.onNewRequest}
+                            onNewRequest={this.handleRequestSubmit}
                             toggleFormDisplay={this.toggleFormDisplay}
                             formDisplayed={this.state.formDisplayed} />
                         <RequestList
@@ -68,11 +90,13 @@ var RequestApp=React.createClass({
 
 var RequestForm=React.createClass({
     handleForm:function(e){
+        var time=new Date()
         e.preventDefault();
         if(!this.refs.title.value)return;
         var newRequest={
             title:this.refs.title.value,
             desc:this.refs.desc.value,
+            time:this.props.time,
         };
         this.refs.addRequestForm.reset();
         this.props.onNewRequest(newRequest);
@@ -101,13 +125,11 @@ var RequestList=React.createClass({
         if(!Array.isArray(requests))throw new Error('requests is not a Array');
         var requestList=requests.map(function(item){
             return <RequestItem
-                onVote={this.props.onVote}
                 requestKey={item.key}
                 key={item.key}
-                voteCount={item.voteCount}
                 title={item.title}
                 desc={item.desc}
-                date={new Date()}/>
+                time={item.time}/>
         }.bind(this));
 
         return (
@@ -125,7 +147,7 @@ var RequestItem=React.createClass({
                 <div className="media-body">
                     <h4 className="media-heading">{this.props.title}</h4>
                     <p>{this.props.desc}</p>
-                    <p>{this.props.date.toString()}</p>
+                    <p>{this.props.time}</p>
                 </div>
             </div>
         );
@@ -139,6 +161,8 @@ var ShowAddButton=React.createClass({
         );
     }
 });
+
+
 
 ReactDOM.render(
     <RequestApp url="./request.json" pollInterval={2000} />,

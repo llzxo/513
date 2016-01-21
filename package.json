@@ -1,0 +1,21 @@
+{
+  "name": "513",
+  "version": "1.0.0",
+  "description": "这是一个校内在线互助平台。\r 使用React作为前端框架，Bootstrap作为UI框架。\r #index.html是本平台的第一版静态demo。",
+  "main": "RequestApp.js",
+  "dependencies": {
+    "babel-preset-react": "^6.3.13",
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "webpack": "^1.12.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

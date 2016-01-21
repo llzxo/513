@@ -132,6 +132,6 @@ var RequestForm = React.createClass({
 });
 
 ReactDOM.render(
-  <RequestApp url="/api/comments" pollInterval={2000} />,
+  <RequestApp url="/api/requests" pollInterval={2000} />,
   document.getElementById('content')
 );
